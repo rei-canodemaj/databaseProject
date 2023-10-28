@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Art Gallery - Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <style>
+      h1 {
+        font-family: Luminari;
+        letter-spacing: 0.3em;
+        word-spacing: 0.4em;
+        line-height: 2;
+        font-size: 3.2em;
+      }
+      h2 {
+        font-family: Roboto;
+        font-size: 1em;
+        font-weight: bold;
+      }
+      p{
+        font-family: Roboto;
+        font-size: 1em;
+      }
+    
+    </style>
+  </head>
+  <body>
+    
+    <div class="container mb-6">
+        {% include 'nav.html' %}
+      <h1 class="text-center">The National Gallery of art</h1>
+      <p align="center">
+        The National Gallery of Art serves the United States by welcoming all people to explore<br />
+        and experience art, creativity, and our shared humanity. In pursuing our mission,<br />
+        we are making this website about our collection available to everyone<br />
+        to support personal enrichment; and to help people understand<br />
+        the inspiration behind great works of art.
+ </p>
+    </div>
+  
+    {% include 'footer.html' %}
+  </body>
+</html>
