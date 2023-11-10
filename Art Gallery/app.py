@@ -1,17 +1,15 @@
 from flask import Flask, render_template
+import views
+
 import database_constituents
 import database_objects
 import database_locations
 app = Flask(__name__)
 
 
-@app.route("/")
-def home_page():
-    return render_template("home.html")
-
-@app.route("/constituents")
-def constituents_page():
-    return render_template("constituents.html")
+app.add_url_rule("/", view_func=views.home_page)
+app.add_url_rule("/constituents", view_func=views.constituents_page)
+    
 
 @app.route("/objects")
 def objects_page():
