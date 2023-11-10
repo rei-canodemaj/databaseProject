@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Art Gallery</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mb-6">
+      {% include 'nav.html' %}
+        <h1 style="font-size: 2.5em" class="text-center">Constituents Table</h1>
+        {% if 'constituents' %}
+          <table class="table" id="constituent_table">
+            <tr>
+              <th>Constituent ID</th>
+              <th>Forward Display Name</th>
+              <th>Last Name</th>
+              <th>Display Date</th>
+              <th>Begin Year</th>
+              <th>End Year</th>
+              <th>Nationality</th>
+              <th>Constituent Type</th>
+            </tr>
+            {% for u in const %}
+            <tr>
+              <td>{{ u[0] }}</td>
+              <td>{{ u[1] }}</td>
+              <td>{{ u[2] }}</td>
+              <td>{{ u[3] }}</td>
+              <td>{{ u[4] }}</td>
+              <td>{{ u[5] }}</td>
+              <td>{{ u[6] }}</td>
+              <td>{{ u[7] }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        {% endif %}
+        <h1 style="font-size: 2.5em" class="text-center">Objects_Constituents Table</h1>
+        <p class="text-center">
+          The relationship table between objects and constituents:
+        </p>
+        {% if 'objects_constituents' %}
+            <table class="table">
+              <tr>
+                <th>Object ID</th>
+                <th>Constituent ID</th>
+                <th>Display Order</th>
+                <th>Role Type</th>
+                <th>Role</th>
+                <th>Display Date</th>
+                <th>Country</th>
+                <th>Zipcode</th>
+              </tr>
+              {% for u in obj_const %}
+              <tr>
+                <td>{{ u[0] }}</td>
+                <td>{{ u[1] }}</td>
+                <td>{{ u[2] }}</td>
+                <td>{{ u[3] }}</td>
+                <td>{{ u[4] }}</td>
+                <td>{{ u[5] }}</td>
+                <td>{{ u[6] }}</td>
+                <td>{{ u[7] }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+        {% endif %}
+          
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>
+
