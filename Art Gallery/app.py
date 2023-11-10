@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import database_constituents
-
-
+import database_objects
+import database_locations
 app = Flask(__name__)
 
 
