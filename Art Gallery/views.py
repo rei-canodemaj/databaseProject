@@ -12,6 +12,29 @@ def get_constituents():
         conn.close()
         return results
     
+def update_constituents(display_name, last_name, display_date, begin_year, end_year, nationality, constituenttype, id):
+        conn = sqlite3.connect('./static/database_constituents.db')
+        cursor = conn.cursor()
+        query = "UPDATE CONSTITUENTS SET forwarddisplayname = ?, lastname = ?, displaydate = ?, beginyear = ?, endyear = ?, nationality = ?, constituenttype = ? WHERE (constituentid = ?)"
+        cursor.execute(query, (display_name, last_name, display_date, begin_year, end_year, nationality, constituenttype, id))
+        conn.commit()
+        cursor.execute("SELECT * FROM CONSTITUENTS")
+        results = cursor.fetchall()
+        conn.close()
+        return results
+
+def delete_constituents(id):
+        conn = sqlite3.connect('./static/database_constituents.db')
+        conn.execute("PRAGMA foreign_keys = ON")
+        cursor = conn.cursor()
+        query = "DELETE FROM CONSTITUENTS WHERE (constituentid = ?)"
+        cursor.execute(query, (id,))
+        conn.commit()
+        cursor.execute("SELECT * FROM CONSTITUENTS")
+        results = cursor.fetchall()
+        conn.close()
+        return results
+        
 def get_objects_constituents():
         conn = sqlite3.connect('./static/database_constituents.db')
         cursor = conn.cursor()
