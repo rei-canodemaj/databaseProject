@@ -27,6 +27,7 @@
               <th>End Year</th>
               <th>Nationality</th>
               <th>Constituent Type</th>
+              <th>Action</th>
             </tr>
             {% for u in const %}
             <tr>
@@ -38,6 +39,7 @@
               <td>{{ u[5] }}</td>
               <td>{{ u[6] }}</td>
               <td>{{ u[7] }}</td>
+              <td><button class="edit_const">Edit</button></td>
             </tr>
             {% endfor %}
           </table>
@@ -75,6 +77,69 @@
           
     </div>
     {% include 'footer.html' %}
+    <script>
+      let eTable = document.getElementById("constituent_table");
+      let rowLength = eTable.rows.length;
+      let totalEmp = [];
+      let headers = [];
+      let myArray = [];
+      for (let i = 0; i < rowLength; i++) {
+        //gets cells of current row
+        myArray[i] = eTable.rows.item(i);
+        
+        let oCells = myArray[i].cells;
+        let cellLength = oCells.length;
+        let rowData = {};
+        
+        for (let j = 0; j < oCells.length; j++) {
+          if (i == 0) {
+
+            //reading the table headers
+            let cellVal = oCells.item(j).innerHTML;
+            headers.push(cellVal);
+          } else {
+
+            //reading the table data
+            myArray[i].classList.add(`input${i}`);
+            let cellVal = oCells.item(j).innerHTML;
+            let headerName = headers[j];
+            rowData[headerName] = cellVal;
+          }
+        }
+        if (i != 0) {
+          totalEmp.push(rowData);
+        }
+    
+      }
+      function edit(i){
+        let htmltext = "<form action='' method='post' name = 'constituent_edit' id='constituent_edit"+i+"'></form><tr><td><input type='text' readonly class='input' name ='id' value='"
+          +totalEmp[i]['Constituent ID']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name='displayname' value='"
+          +totalEmp[i]['Forward Display Name']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name='lastname' value='"
+          +totalEmp[i]['Last Name']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name = 'displaydate' value='"
+          +totalEmp[i]['Display Date']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name = 'beginyear' value='"
+          +totalEmp[i]['Begin Year']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name = 'endyear' value='"
+          +totalEmp[i]['End Year']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name = 'nationality' value='"
+          +totalEmp[i]['Nationality']+
+          "' form = 'constituent_edit"+i+"'></td><td><input type='text' class='input' name = 'type' value='"
+          +totalEmp[i]['Constituent Type']+
+          "' form = 'constituent_edit"+i+"'></td><td><button type='submit' class='input' name = 'save_const'  form = 'constituent_edit"+i+"'>Save</button><button type='submit' class='input' name ='delete_const' form = 'constituent_edit"+i+"'>Delete</button></td></tr>";
+          
+        document.querySelector(`.input${i+1}`).innerHTML = htmltext;
+      }
+
+     
+     
+     
+      let btnEdit = document.querySelectorAll(".edit_const");
+      for (let i = 0; i < btnEdit.length; i++) {
+        btnEdit[i].onclick = function() {edit(i)}
+      }
+    </script>
 </body>
 </html>
-
