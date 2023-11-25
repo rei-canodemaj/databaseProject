@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 app.add_url_rule("/", view_func=views.home_page)
-app.add_url_rule("/constituents", view_func=views.constituents_page)
+app.add_url_rule("/constituents", view_func=views.constituents_page, methods=["GET", "POST"])
 app.add_url_rule("/objects", view_func=views.objects_page)
 
 @app.route("/locations")
