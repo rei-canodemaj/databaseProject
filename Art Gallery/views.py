@@ -11,7 +11,7 @@ def get_constituents():
         results = cursor.fetchall()
         conn.close()
         return results
-    
+
 def update_constituents(display_name, last_name, display_date, begin_year, end_year, nationality, constituenttype, id):
         conn = sqlite3.connect('./static/database_constituents.db')
         cursor = conn.cursor()
@@ -34,7 +34,7 @@ def delete_constituents(id):
         results = cursor.fetchall()
         conn.close()
         return results
-        
+
 def get_objects_constituents():
         conn = sqlite3.connect('./static/database_constituents.db')
         cursor = conn.cursor()
@@ -44,10 +44,28 @@ def get_objects_constituents():
         return results
     
 def constituents_page():
-        constituents = get_constituents()
-        objects_constituents = get_objects_constituents()
-        return render_template("constituents.html", const=constituents, obj_const=objects_constituents)
-      
+        if request.method == "GET":
+                constituents = get_constituents()
+                objects_constituents = get_objects_constituents()
+                return render_template("constituents.html", const=constituents, obj_const=objects_constituents)
+        else:
+                if "save_const" in request.form:
+                        objects_constituents = get_objects_constituents()
+                        form_id = request.form["id"]
+                        form_displayname = request.form["displayname"]
+                        form_lastname = request.form["lastname"]
+                        form_displaydate = request.form["displaydate"]
+                        form_beginyear = request.form["beginyear"]
+                        form_endyear = request.form["endyear"]
+                        form_nationality = request.form["nationality"]
+                        form_type = request.form["type"]
+                        updated = update_constituents(form_displayname, form_lastname, form_displaydate, form_beginyear, form_endyear, form_nationality, form_type, form_id)
+                        return render_template("constituents.html", const=updated, obj_const=objects_constituents)
+                if "delete_const" in request.form:
+                        form_id = request.form["id"]
+                        deleted = delete_constituents(form_id)
+                        objects_constituents = get_objects_constituents()
+                        return render_template("constituents.html", const=deleted, obj_const=objects_constituents)
 def get_objects():
     conn = sqlite3.connect('./static/database_objects.db')
     cursor = conn.cursor()
