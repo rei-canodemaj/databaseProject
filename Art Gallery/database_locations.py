@@ -72,3 +72,49 @@ preferred_locations_df.to_sql('PREFERRED_LOCATIONS', conn, if_exists='append', i
 conn.commit()
 
 
+
+#locations relations table
+locations_relations_query = '''
+                    CREATE TABLE LOCATIONS_RELATIONS(
+                        preferredlocationkey char(32) ,
+                        tmslocationid int
+                    )
+                '''
+c.execute(locations_relations_query)
+locat_relat_df = pd.read_csv('preferred_locations_tms_locations.csv', usecols=[
+    'preferredlocationkey',
+    'tmslocationid'
+])
+locat_relat_df.to_sql('LOCATIONS_RELATIONS', conn, if_exists='append', index=False)
+conn.commit()
+
+
+
+#location joined table
+create_table_query = '''
+    CREATE TABLE LOCATIONS_NEW (
+        locationid INTEGER NOT NULL PRIMARY KEY,
+        site CHAR(256),
+        room CHAR(32),
+        publicaccess INTEGER,
+        description CHAR(256),
+        unitposition CHAR(1),
+        preferredlocationkey CHAR(32),
+        FOREIGN KEY (preferredlocationkey) REFERENCES PREFERRED_LOCATIONS(locationkey) ON DELETE CASCADE 
+    )
+'''
+c.execute(create_table_query)
+sql_query = '''
+                INSERT INTO LOCATIONS_NEW
+                SELECT LOCATIONS.*, LOCATIONS_RELATIONS.preferredlocationkey
+                FROM LOCATIONS
+                JOIN LOCATIONS_RELATIONS WHERE LOCATIONS.locationid = LOCATIONS_RELATIONS.tmslocationid
+                ORDER BY LOCATIONS_RELATIONS.preferredlocationkey ASC
+                LIMIT 40
+            '''
+c.execute(sql_query)
+conn.commit()
+
+conn.close()
+
+
