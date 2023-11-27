@@ -27,6 +27,7 @@
           <th>Visual Browser Time Span</th>
           <th>Medium</th>
           <th>Attribution</th>
+          <th>Action</th>
         </tr>
         {% for u in obj %}
         <tr>
@@ -38,6 +39,7 @@
           <td>{{ u[5] }}</td>
           <td>{{ u[6] }}</td>
           <td>{{ u[7] }}</td>
+          <td><button class="edit_objects">Edit</button></td>
         </tr>
         {% endfor %}
       </table>
@@ -73,6 +75,65 @@
       </form>
     </div>
     {% include 'footer.html' %}
-   
+    <script>
+      let eTable = document.getElementById("object_table");
+      let rowLength = eTable.rows.length;
+      let totalEmp = [];
+      let headers = [];
+      let myArray = [];
+      for (let i = 0; i < rowLength; i++) {
+        //gets cells of current row
+        myArray[i] = eTable.rows.item(i);
+
+        let oCells = myArray[i].cells;
+        let cellLength = oCells.length;
+        let rowData = {};
+
+        for (let j = 0; j < oCells.length; j++) {
+          if (i == 0) {
+            //reading the table headers
+            let cellVal = oCells.item(j).innerHTML;
+            headers.push(cellVal);
+          } else {
+            //reading the table data
+            myArray[i].classList.add(`input${i}`);
+            let cellVal = oCells.item(j).innerHTML;
+            let headerName = headers[j];
+            rowData[headerName] = cellVal;
+          }
+        }
+        if (i != 0) {
+          totalEmp.push(rowData);
+        }
+      }
+      function edit(i){
+        let htmltext = "<form action='' method='post' name = 'object_edit' id='object_edit"+i+"'></form><tr><td><input type='number' readonly class='input' name ='objid' value='"
+          +totalEmp[i]['Object ID']+
+          "' form = 'object_edit"+i+"'></td><td><input type='number' class='input' name='accessid' value='"
+          +totalEmp[i]['Access Id']+
+          "' form = 'object_edit"+i+"'></td><td><input type='number' class='input' name='locationid' value='"
+          +totalEmp[i]['Location Id']+
+          "' form = 'object_edit"+i+"'></td><td><input type='text' class='input' name = 'title' value='"
+          +totalEmp[i]['Title']+
+          "' form = 'object_edit"+i+"'></td><td><input type='text' class='input' name = 'displaydate' value='"
+          +totalEmp[i]['Display Date']+
+          "' form = 'object_edit"+i+"'></td><td><input type='text' class='input' name = 'browsertime' value='"
+          +totalEmp[i]['Visual Browser Time Span']+
+          "' form = 'object_edit"+i+"'></td><td><input type='text' class='input' name = 'medium' value='"
+          +totalEmp[i]['Medium']+
+          "' form = 'object_edit"+i+"'></td><td><input type='text' class='input' name = 'attribution' value='"
+          +totalEmp[i]['Attribution']+
+          "' form = 'object_edit"+i+"'></td><td><button type='submit' class='input' name = 'save_objects'  form = 'object_edit"+i+"'>Save</button></td></tr>";
+          
+        document.querySelector(`.input${i+1}`).innerHTML = htmltext; 
+      }
+
+      let btnEdit = document.querySelectorAll(".edit_objects");
+      for (let i = 0; i < btnEdit.length; i++) {
+        btnEdit[i].onclick = function () {
+          edit(i);
+        };
+      }
+    </script>
   </body>
 </html>
